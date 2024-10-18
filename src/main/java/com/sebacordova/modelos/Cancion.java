@@ -28,22 +28,22 @@ public class Cancion {
 	
 	@Column
 	@NotBlank
-	@Size(min = 3, message = "ERROR. Debe tener al menos 5 caracteres.")
+	@Size(min = 3, message = "ERROR. Debe tener al menos 3 caracteres.")
 	private String artista;
 	
 	@Column
 	@NotBlank
-	@Size(min = 3, message = "ERROR. Debe tener al menos 5 caracteres.")
+	@Size(min = 3, message = "ERROR. Debe tener al menos 3 caracteres.")
 	private String album;
 	
 	@Column
 	@NotBlank
-	@Size(min = 3, message = "ERROR. Debe tener al menos 5 caracteres.")
+	@Size(min = 3, message = "ERROR. Debe tener al menos 3 caracteres.")
 	private String genero;
 	
 	@Column
 	@NotBlank
-	@Size(min = 3, message = "ERROR. Debe tener al menos 5 caracteres.")
+	@Size(min = 3, message = "ERROR. Debe tener al menos 3 caracteres.")
 	private String idioma;
 	
 	@Column(updatable = false)
