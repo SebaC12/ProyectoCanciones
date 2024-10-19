@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.sebacordova.modelos.Cancion;
 import com.sebacordova.servicios.ServicioCanciones;
 
 import jakarta.validation.Valid;
-
 
 
 
@@ -50,6 +50,25 @@ public class ControladorCanciones {
 			return "agregarCancion.jsp";
 		}
 		this.servicio.agregarCancion(cancion);
+		return "redirect:/canciones";
+	}
+	
+	@GetMapping("/canciones/editar/{id}")
+	public String desplegarFormularioEditarCancion(@PathVariable Long id, 
+	@ModelAttribute Cancion cancion, Model modelo) {
+		cancion = this.servicio.obtenerCancionPorId(id);
+		modelo.addAttribute("cancion", cancion);
+		return "formularioEditarCancion.jsp";
+	}
+	
+	
+	@PutMapping("/canciones/actualizar/{id}")
+	public String actualizarPelicula(@Valid @ModelAttribute Cancion cancion, 
+			BindingResult validaciones, @PathVariable Long id) {
+		if(validaciones.hasErrors()) {
+			return "formularioEditarCancion.jsp";
+		}
+		this.servicio.actualizarCancion(cancion);
 		return "redirect:/canciones";
 	}
 }

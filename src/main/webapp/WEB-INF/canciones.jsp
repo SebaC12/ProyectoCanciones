@@ -14,6 +14,7 @@
                 <th>Título</th>
                 <th>Artista</th>
                 <th>Detalle</th>
+                <th>Editar</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +24,9 @@
                     <td>${cancion.artista}</td>
                     <td>
                         <a href="<c:url value='/canciones/detalle/${cancion.id}'/>">Detalle</a>
+                    </td>
+                    <td>
+                    	<a href="<c:url value='/canciones/editar/${cancion.id}'/>">Editar</a>
                     </td>
                 </tr>
             </c:forEach>
