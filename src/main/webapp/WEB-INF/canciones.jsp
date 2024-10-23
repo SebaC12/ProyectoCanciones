@@ -22,7 +22,7 @@
             <c:forEach var="cancion" items="${canciones}">
                 <tr>
                     <td>${cancion.titulo}</td>
-                    <td>${cancion.artista}</td>
+                    <td>${cancion.artista.nombre} ${cancion.artista.apellido}</td>
                     <td>
                         <a href="<c:url value='/canciones/detalle/${cancion.id}'/>">Detalle</a>
                     </td>
@@ -35,6 +35,7 @@
     </table>
     <div>
         <a href="<c:url value='/formulario/agregar'/>">Agregar Canción</a>
+        <a href="<c:url value='/artistas'/>">Ir A Artistas</a>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

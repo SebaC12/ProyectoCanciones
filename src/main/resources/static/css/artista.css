@@ -1,0 +1,11 @@
+.selectArtista{
+	width: 30%;
+	height: 30px;
+	align-items: center;
+	display: flex;
+	justify-content: center;
+}
+
+*{
+	padding: 10px;
+}

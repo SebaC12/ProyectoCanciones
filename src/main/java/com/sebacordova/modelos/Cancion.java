@@ -1,12 +1,16 @@
 package com.sebacordova.modelos;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -30,11 +34,6 @@ public class Cancion {
 	@Column
 	@NotBlank
 	@Size(min = 3, message = "ERROR. Debe tener al menos 3 caracteres.")
-	private String artista;
-	
-	@Column
-	@NotBlank
-	@Size(min = 3, message = "ERROR. Debe tener al menos 3 caracteres.")
 	private String album;
 	
 	@Column
@@ -47,6 +46,10 @@ public class Cancion {
 	@Size(min = 3, message = "ERROR. Debe tener al menos 3 caracteres.")
 	private String idioma;
 	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="id_artista")
+	private Artista artista;
+	
 	@Column(updatable = false)
 	private LocalDateTime fechaCreacion;
 	
@@ -57,7 +60,7 @@ public class Cancion {
 		super();
 		this.id = 0l;
 		this.titulo = "";
-		this.artista = "";
+		this.artista = new Artista();
 		this.album = "";
 		this.genero = "";
 		this.idioma = "";
@@ -81,11 +84,11 @@ public class Cancion {
 		this.titulo = titulo;
 	}
 
-	public String getArtista() {
+	public Artista getArtista() {
 		return artista;
 	}
 
-	public void setArtista(String artista) {
+	public void setArtista(Artista artista) {
 		this.artista = artista;
 	}
 
@@ -128,7 +131,7 @@ public class Cancion {
 	public void setFechaActualizacion(LocalDateTime fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
 	}
-	
+
 	@PrePersist
 	protected void onCreate() {
 		fechaCreacion = LocalDateTime.now();
@@ -139,4 +142,14 @@ public class Cancion {
 	protected void onUpdate() {
 		fechaActualizacion = LocalDateTime.now();
 	}
+	
+	public void imprimeInformacion() {
+		System.out.println("Id: " + this.id);
+		System.out.println("Título: " + this.titulo);
+		System.out.println("Artista: " + this.artista);
+		System.out.println("Álbum: " + this.album);
+		System.out.println("Género: " + this.genero);
+		System.out.println("Idioma: " + this.idioma);
+	}
+	
 }

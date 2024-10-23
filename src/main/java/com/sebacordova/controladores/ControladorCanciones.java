@@ -12,8 +12,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sebacordova.modelos.Artista;
 import com.sebacordova.modelos.Cancion;
+import com.sebacordova.servicios.ServicioArtistas;
 import com.sebacordova.servicios.ServicioCanciones;
 
 import jakarta.validation.Valid;
@@ -24,7 +27,12 @@ import jakarta.validation.Valid;
 public class ControladorCanciones {
 	@Autowired
 	ServicioCanciones servicio;
+	ServicioArtistas servicioArtistas;
 	
+	public ControladorCanciones(ServicioCanciones servicio, ServicioArtistas servicioartistas) {
+		this.servicio = servicio;
+		this.servicioArtistas = servicioartistas;
+	}
 	
 	@GetMapping("/canciones")
 	public String desplegarCanciones(Model modelo) {
@@ -41,15 +49,20 @@ public class ControladorCanciones {
 	}
 	
 	@GetMapping("/formulario/agregar")
-	public String formularioAgregarCancion(@ModelAttribute Cancion cancion) {
+	public String formularioAgregarCancion(@ModelAttribute Cancion cancion, Model modelo) {
+		List<Artista> artistas = this.servicioArtistas.obtenerTodosLosArtistas();
+		modelo.addAttribute("artistas", artistas);
+        modelo.addAttribute("cancion", new Cancion());
 		return "agregarCancion.jsp";
 	}
 	
 	@PostMapping("/procesa/agregar")
-	public String procesarAgregarCancion(@Valid @ModelAttribute Cancion cancion, BindingResult validaciones) {
+	public String procesarAgregarCancion(@Valid @ModelAttribute Cancion cancion, BindingResult validaciones, @RequestParam Long id_artista) {
 		if(validaciones.hasErrors()) {
 			return "agregarCancion.jsp";
 		}
+		Artista artista = this.servicioArtistas.obtenerUno(id_artista);
+		cancion.setArtista(artista);
 		this.servicio.agregarCancion(cancion);
 		return "redirect:/canciones";
 	}
@@ -64,7 +77,7 @@ public class ControladorCanciones {
 	
 	
 	@PutMapping("/canciones/actualizar/{id}")
-	public String actualizarPelicula(@Valid @ModelAttribute Cancion cancion, 
+	public String actualizarCancion(@Valid @ModelAttribute Cancion cancion, 
 			BindingResult validaciones, @PathVariable Long id) {
 		if(validaciones.hasErrors()) {
 			return "formularioEditarCancion.jsp";
